@@ -95,3 +95,9 @@ config TDX_CFG_BLOCK_USB_GADGET_PID
 	  offset 0x4000 is reserved for Colibri/Apalis modules.
 
 endif
+
+config TDX_EASY_INSTALLER
+	bool "Use Toradex Easy Installer specific options."
+	help
+	  Use Toradex Easy Installer specific options. Currently this is only
+	  needed to choose the correct ubiboot options for Easy Installer.
