@@ -149,6 +149,7 @@
 	MODULE_EXTRA_ENV_SETTINGS \
 	UBOOT_UPDATE \
 	"boot_file=zImage\0" \
+	"bootm_boot_mode=sec\0" \
 	"bootubipart=ubi\0" \
 	"console=ttymxc0\0" \
 	"defargs=\0" \
