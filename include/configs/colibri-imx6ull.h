@@ -49,15 +49,6 @@
 		"nand erase.part u-boot2 && " \
 		"nand write ${loadaddr} u-boot2 ${filesize}\0"
 
-#define NFS_BOOTCMD \
-	"nfsargs=ip=:::::eth0: root=/dev/nfs\0" \
-	"nfsboot=run setup; " \
-		"setenv bootargs ${defargs} ${nfsargs} " \
-		"${setupargs} ${vidargs}; echo Booting from NFS...;" \
-		"dhcp ${kernel_addr_r} && " \
-		"tftp ${fdt_addr_r} ${fdtfile} && " \
-		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
-
 #define UBI_BOOTCMD \
 	"ubiargs=ubi.mtd=ubi root=ubi0:rootfs rw rootfstype=ubifs " \
 		"ubi.fm_autoconvert=1\0" \
@@ -83,7 +74,6 @@
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	BOOTENV \
 	MEM_LAYOUT_ENV_SETTINGS \
-	NFS_BOOTCMD \
 	UBI_BOOTCMD \
 	UBOOT_UPDATE \
 	"boot_script_dhcp=boot.scr\0" \
