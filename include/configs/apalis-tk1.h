@@ -79,6 +79,7 @@
 		"&& setenv dtbparam ${fdt_addr_r}\0"
 
 #define BOARD_EXTRA_ENV_SETTINGS \
+	"boot_script_dhcp=boot.scr\0" \
 	"boot_file=zImage\0" \
 	"console=ttyS0\0" \
 	"defargs=lp0_vec=2064@0xf46ff000 core_edp_mv=1150 core_edp_ma=4000 " \

@@ -142,6 +142,7 @@
 #endif
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	BOOTENV \
+	"boot_script_dhcp=boot.scr\0" \
 	"bootcmd=run distro_bootcmd ; " \
 		"usb start ; " \
 		"setenv stdout serial,vidconsole; " \

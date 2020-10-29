@@ -125,6 +125,7 @@
 #define FDT_FILE "imx6dl-colibri-eval-v3.dtb"
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	BOOTENV \
+	"boot_script_dhcp=boot.scr\0" \
 	"bootcmd=run distro_bootcmd; " \
 		"usb start ; " \
 		"setenv stdout serial,vidconsole; " \
