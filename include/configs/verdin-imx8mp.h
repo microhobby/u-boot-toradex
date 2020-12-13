@@ -42,10 +42,7 @@
 #define CONFIG_ETHPRIME			"eth0" /* eqos is aliased on-module Ethernet interface */
 
 #define CONFIG_FEC_XCV_TYPE		RGMII
-#define CONFIG_FEC_MXC_PHYADDR		7
 #define FEC_QUIRK_ENET_MAC
-
-#define PHY_ANEG_TIMEOUT 20000
 
 #define CONFIG_IPADDR			192.168.10.2
 #define CONFIG_NETMASK			255.255.255.0
