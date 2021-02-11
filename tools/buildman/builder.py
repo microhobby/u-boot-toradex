@@ -1659,7 +1659,7 @@ class Builder:
         term = threading.Thread(target=self.queue.join)
         term.setDaemon(True)
         term.start()
-        while term.isAlive():
+        while term.is_alive():
             term.join(100)
 
         # Wait until we have processed all output
