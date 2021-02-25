@@ -12,6 +12,7 @@ CONFIG_IMX_HAB=y
 # CONFIG_CMD_DEKBLOB is not set
 CONFIG_DISTRO_DEFAULTS=y
 CONFIG_FIT=y
+CONFIG_FIT_VERBOSE=y
 CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/toradex/colibri_imx7/imximage.cfg,MX7D"
 CONFIG_USE_PREBOOT=y
 CONFIG_PREBOOT="setenv fdtfile ${soc}-colibri-emmc-${fdt_board}.dtb"
