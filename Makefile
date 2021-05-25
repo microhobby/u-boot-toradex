@@ -1199,7 +1199,7 @@ ifeq ($(CONFIG_MULTI_DTB_FIT),y)
 IMX_DEPS = u-boot-fit-dtb.bin
 endif
 
-u-boot-nand.imx: $(IMX_DEPS) u-boot.bin
+u-boot-nand.imx: u-boot.imx
 	$(Q)$(MAKE) $(build)=arch/arm/mach-imx $@
 	$(BOARD_SIZE_CHECK)
 
