@@ -60,14 +60,25 @@ stages:
         ${TEST_PY_TEST_SPEC:+"-k ${TEST_PY_TEST_SPEC}"}
         --build-dir "$UBOOT_TRAVIS_BUILD_DIR"
 
-build all 32bit Toradex boards:
+build Apalis 32bit Toradex boards:
   tags: [ 'all' ]
   stage: toradex build
   script:
     - ret=0;
-      ./tools/buildman/buildman -o /tmp -P -W toradex -x aarch64 || ret=$?;
-      if [[ $ret -ne 0 ]]; then
-        ./tools/buildman/buildman -o /tmp -seP;
+      ./tools/buildman/buildman -o /tmp/ -P -W 'toradex & apalis' -x aarch64 || ret=$?;
+      if [[ $ret -ne 0 ]]; then \
+        ./tools/buildman/buildman -o /tmp/ -seP;
+        exit $ret;
+      fi;
+
+build Colibri i.MX 32bit Toradex boards:
+  tags: [ 'all' ]
+  stage: toradex build
+  script:
+    - ret=0;
+      ./tools/buildman/buildman -o /tmp/ -P -W 'toradex & colibri-imx' -x aarch64 || ret=$?;
+      if [[ $ret -ne 0 ]]; then \
+        ./tools/buildman/buildman -o /tmp/ -seP;
         exit $ret;
       fi;
 
@@ -80,7 +91,7 @@ build all 64bit Toradex boards:
     - pip install pyelftools
     - ret=0;
       ./tools/buildman/buildman -o /tmp -P -E -W 'toradex & aarch64' || ret=$?;
-      if [[ $ret -ne 0 ]]; then
+      if [[ $ret -ne 0 ]]; then \
         ./tools/buildman/buildman -o /tmp -seP;
         exit $ret;
       fi;
