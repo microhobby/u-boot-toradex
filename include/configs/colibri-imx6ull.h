@@ -50,6 +50,18 @@
 		"nand erase.part u-boot2 && " \
 		"nand write ${loadaddr} u-boot2 ${filesize}\0"
 
+#ifdef CONFIG_TDX_EASY_INSTALLER
+#define UBI_BOOTCMD \
+        "ubiargs=ubi.mtd=ubi root=ubi0:rootfs rw rootfstype=ubifs " \
+                "ubi.fm_autoconvert=1\0" \
+        "ubiboot=run setup; " \
+                "setenv bootargs console=ttymxc0,115200 quiet " \
+                "rootfstype=squashfs root=/dev/ram autoinstall " \
+                "${teziargs}; echo Booting Toradex Easy Installer...; " \
+                "ubi part ubi && " \
+                "ubi read ${ramdisk_addr_r} rootfs && " \
+                "bootm ${ramdisk_addr_r}\0"
+#else /* CONFIG_TDX_EASY_INSTALLER */
 #define UBI_BOOTCMD \
 	"ubiargs=ubi.mtd=ubi root=ubi0:rootfs rw rootfstype=ubifs " \
 		"ubi.fm_autoconvert=1\0" \
@@ -59,7 +71,8 @@
 		"ubi part ubi &&" \
 		"ubi read ${kernel_addr_r} kernel && " \
 		"ubi read ${fdt_addr_r} dtb && " \
-		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+		"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0"
+#endif /* CONFIG_TDX_EASY_INSTALLER */
 
 /* Run Distro Boot script if ubiboot fails */
 #define CONFIG_BOOTCOMMAND "run ubiboot || run distro_bootcmd;"
