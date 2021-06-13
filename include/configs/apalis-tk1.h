@@ -69,8 +69,15 @@
 	"update_uboot=run set_blkcnt && mmc dev 0 ${uboot_hwpart} && " \
 		"mmc write ${loadaddr} ${uboot_blk} ${blkcnt}\0" \
 
+#if defined(CONFIG_TDX_EASY_INSTALLER)
+#  define BOOT_SCRIPT	"boot-tezi.scr"
+#else
+#  define BOOT_SCRIPT   "boot.scr"
+#endif
+
 #define BOARD_EXTRA_ENV_SETTINGS \
-	"boot_script_dhcp=boot.scr\0" \
+	"boot_scripts=" BOOT_SCRIPT "\0" \
+	"boot_script_dhcp=" BOOT_SCRIPT "\0" \
 	"boot_file=zImage\0" \
 	"console=ttyS0\0" \
 	"defargs=lp0_vec=2064@0xf46ff000 core_edp_mv=1150 core_edp_ma=4000 " \

@@ -113,9 +113,17 @@
 	"scriptaddr=0x17000000\0"
 
 #define FDT_FILE "imx6dl-colibri-eval-v3.dtb"
+
+#if defined(CONFIG_TDX_EASY_INSTALLER)
+#  define BOOT_SCRIPT	"boot-tezi.scr"
+#else
+#  define BOOT_SCRIPT   "boot.scr"
+#endif
+
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	BOOTENV \
-	"boot_script_dhcp=boot.scr\0" \
+	"boot_scripts=" BOOT_SCRIPT "\0" \
+	"boot_script_dhcp=" BOOT_SCRIPT "\0" \
 	"bootcmd=run distro_bootcmd; " \
 		"usb start ; " \
 		"setenv stdout serial,vidconsole; " \

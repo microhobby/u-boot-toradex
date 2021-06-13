@@ -85,12 +85,19 @@
 
 #define DFU_ALT_NAND_INFO "imx6ull-bcb part 0,1;u-boot1 part 0,2;u-boot2 part 0,3;u-boot-env part 0,4;ubi partubi 0,5"
 
+#if defined(CONFIG_TDX_EASY_INSTALLER)
+#  define BOOT_SCRIPT	"boot-tezi.scr"
+#else
+#  define BOOT_SCRIPT   "boot.scr"
+#endif
+
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	BOOTENV \
 	MEM_LAYOUT_ENV_SETTINGS \
 	UBI_BOOTCMD \
 	UBOOT_UPDATE \
-	"boot_script_dhcp=boot.scr\0" \
+	"boot_scripts=" BOOT_SCRIPT "\0" \
+	"boot_script_dhcp=" BOOT_SCRIPT "\0" \
 	"bootubipart=ubi\0" \
 	"console=ttymxc0\0" \
 	"defargs=user_debug=30\0" \
