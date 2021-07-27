@@ -361,7 +361,7 @@ static int get_cfgblock_interactive(void)
 
 	if (cpu_is_pxa27x())
 		sprintf(message, "Is the module the 312 MHz version? [y/N] ");
-#if !defined(CONFIG_TARGET_VERDIN_IMX8MM) || !defined(CONFIG_TARGET_VERDIN_IMX8MN)
+#if !(defined(CONFIG_TARGET_VERDIN_IMX8MM) || defined(CONFIG_TARGET_VERDIN_IMX8MN))
 	else
 		sprintf(message, "Is the module an IT version? [y/N] ");
 
