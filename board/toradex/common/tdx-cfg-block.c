@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0+
 /*
- * Copyright (c) 2016-2020 Toradex
+ * Copyright (c) 2016-2021 Toradex
  */
 
 #include <common.h>
@@ -16,7 +16,8 @@
 	defined(CONFIG_TARGET_COLIBRI_IMX6) || \
 	defined(CONFIG_TARGET_COLIBRI_IMX8X) || \
 	defined(CONFIG_TARGET_VERDIN_IMX8MM) || \
-	defined(CONFIG_TARGET_VERDIN_IMX8MN)
+	defined(CONFIG_TARGET_VERDIN_IMX8MN) || \
+	defined(CONFIG_TARGET_VERDIN_IMX8MP)
 #include <asm/arch/sys_proto.h>
 #else
 #define is_cpu_type(cpu) (0)
@@ -137,8 +138,17 @@ const char * const toradex_modules[] = {
 	[53] = "Apalis iMX8 QuadXPlus 2GB ECC IT",
 	[54] = "Apalis iMX8 DualXPlus 1GB",
 	[55] = "Verdin iMX8M Mini Quad 2GB Wi-Fi / BT IT",
-	[56] = "Verdin iMX8M Nano SoloLite 1GB", /* not currently on sale */
+	[56] = "Verdin iMX8M Nano Quad 1GB Wi-Fi / BT", /* not currently on sale */
 	[57] = "Verdin iMX8M Mini DualLite 1GB",
+	[58] = "Verdin iMX8M Plus Quad 4GB Wi-Fi / BT IT",
+	[59] = "Verdin iMX8M Mini Quad 2GB IT",
+	[60] = "Verdin iMX8M Mini DualLite 1GB WB IT",
+	[61] = "Verdin iMX8M Plus Quad 2GB",
+	[62] = "Colibri iMX6ULL 1GB IT (eMMC)",
+	[63] = "Verdin iMX8M Plus Quad 4GB IT",
+	[64] = "Verdin iMX8M Plus Quad 2GB Wi-Fi / BT IT",
+	[65] = "Verdin iMX8M Plus QuadLite 1GB IT",
+	[66] = "Verdin iMX8M Plus Quad 8GB Wi-Fi / BT",
 };
 
 const char * const toradex_carrier_boards[] = {
@@ -361,7 +371,7 @@ static int get_cfgblock_interactive(void)
 
 	if (cpu_is_pxa27x())
 		sprintf(message, "Is the module the 312 MHz version? [y/N] ");
-#if !(defined(CONFIG_TARGET_VERDIN_IMX8MM) || defined(CONFIG_TARGET_VERDIN_IMX8MN))
+#if !(defined(CONFIG_TARGET_VERDIN_IMX8MM) || defined(CONFIG_TARGET_VERDIN_IMX8MN) || defined(CONFIG_TARGET_COLIBRI_IMX6ULL_EMMC))
 	else
 		sprintf(message, "Is the module an IT version? [y/N] ");
 
@@ -372,6 +382,7 @@ static int get_cfgblock_interactive(void)
 		it = 'y';
 #endif
 
+#if !defined(CONFIG_TARGET_COLIBRI_IMX6ULL_EMMC)
 #if defined(CONFIG_TARGET_APALIS_IMX8) || \
 		defined(CONFIG_TARGET_APALIS_IMX8X) || \
 		defined(CONFIG_TARGET_COLIBRI_IMX6ULL) || \
@@ -379,6 +390,7 @@ static int get_cfgblock_interactive(void)
 	sprintf(message, "Does the module have Wi-Fi / Bluetooth? [y/N] ");
 	len = cli_readline(message);
 	wb = console_buffer[0];
+#endif
 #endif
 
 	soc = env_get("soc");
@@ -408,6 +420,9 @@ static int get_cfgblock_interactive(void)
 				tdx_hw_tag.prodid = COLIBRI_IMX6S;
 		}
 #elif CONFIG_TARGET_COLIBRI_IMX6ULL
+#if defined(CONFIG_TARGET_COLIBRI_IMX6ULL_EMMC)
+	tdx_hw_tag.prodid = COLIBRI_IMX6ULL_IT_EMMC;
+#else
 		if (it == 'y' || it == 'Y') {
 			if (wb == 'y' || wb == 'Y')
 				tdx_hw_tag.prodid = COLIBRI_IMX6ULL_WIFI_BT_IT;
@@ -420,6 +435,7 @@ static int get_cfgblock_interactive(void)
 				tdx_hw_tag.prodid = COLIBRI_IMX6ULL;
 		}
 #endif
+#endif
 	} else if (!strcmp("imx7d", soc))
 		tdx_hw_tag.prodid = COLIBRI_IMX7D;
 	else if (!strcmp("imx7s", soc))
@@ -429,7 +445,7 @@ static int get_cfgblock_interactive(void)
 	else if (is_cpu_type(MXC_CPU_IMX8MMDL))
 		tdx_hw_tag.prodid = VERDIN_IMX8MMDL;
 	else if (is_cpu_type(MXC_CPU_IMX8MN))
-		tdx_hw_tag.prodid = VERDIN_IMX8MNSL;
+		tdx_hw_tag.prodid = VERDIN_IMX8MNQ_WIFI_BT;
 	else if (is_cpu_type(MXC_CPU_IMX8QM)) {
 		if (it == 'y' || it == 'Y') {
 			if (wb == 'y' || wb == 'Y')
