@@ -42,6 +42,14 @@ DECLARE_GLOBAL_DATA_PTR;
 
 #define NAND_PAD_READY0_CTRL (PAD_CTL_DSE_48ohm | PAD_CTL_PUS_22K_UP)
 
+#define FLASH_DETECTION_CTRL (PAD_CTL_HYS | PAD_CTL_PUE)
+#define FLASH_DET_GPIO	IMX_GPIO_NR(4, 1)
+static iomux_v3_cfg_t const flash_detection_pads[] = {
+	MX6_PAD_NAND_WE_B__GPIO4_IO01 | MUX_PAD_CTRL(FLASH_DETECTION_CTRL),
+};
+
+static bool is_emmc;
+
 int dram_init(void)
 {
 	gd->ram_size = get_ram_size((void *)PHYS_SDRAM, PHYS_SDRAM_SIZE);
@@ -119,6 +127,16 @@ int board_init(void)
 	/* address of boot parameters */
 	gd->bd->bi_boot_params = PHYS_SDRAM + 0x100;
 
+	/*
+	 * Enable GPIO on NAND_WE_B/eMMC_RST with 100k pull-down. eMMC_RST
+	 * is pulled high with 4.7k for eMMC devices. This allows to reliably
+	 * detect eMMC/NAND flash
+	 */
+	imx_iomux_v3_setup_multiple_pads(flash_detection_pads, ARRAY_SIZE(flash_detection_pads));
+	gpio_request(FLASH_DET_GPIO, "flash-detection-gpio");
+	is_emmc = gpio_get_value(FLASH_DET_GPIO);
+	gpio_free(FLASH_DET_GPIO);
+
 #ifdef CONFIG_FEC_MXC
 	setup_fec();
 #endif
@@ -147,8 +165,15 @@ int board_late_init(void)
 	 * Wi-Fi/Bluetooth make sure we use the -wifi device tree.
 	 */
 	if (tdx_hw_tag.prodid == COLIBRI_IMX6ULL_WIFI_BT_IT ||
-	    tdx_hw_tag.prodid == COLIBRI_IMX6ULL_WIFI_BT)
+	    tdx_hw_tag.prodid == COLIBRI_IMX6ULL_WIFI_BT) {
 		env_set("variant", "-wifi");
+	} else {
+		if (is_emmc)
+			env_set("variant", "-emmc");
+	}
+#else
+	if (is_emmc)
+		env_set("variant", "-emmc");
 #endif
 
 	/*
