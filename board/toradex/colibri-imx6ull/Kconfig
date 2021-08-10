@@ -32,7 +32,7 @@ config TDX_CFG_BLOCK_2ND_ETHADDR
 	default y
 
 config SYS_CONFIG_NAME
-	default "colibri-imx6ull-tezi-recovery" if (!TARGET_COLIBRI_IMX6ULL_NAND && !TARGET_COLIBRI_IMX6ULL_EMMC)
+	default "colibri-imx6ull_tezi-recovery" if (!TARGET_COLIBRI_IMX6ULL_NAND && !TARGET_COLIBRI_IMX6ULL_EMMC)
 
 if TARGET_COLIBRI_IMX6ULL_NAND
 
