@@ -211,6 +211,8 @@
 /* Environment in eMMC, before config block at the end of 1st "boot sector" */
 #define CONFIG_SYS_MMC_ENV_DEV		0
 #define CONFIG_SYS_MMC_ENV_PART		1
+#elif defined(CONFIG_ENV_IS_IN_NAND)
+#define CONFIG_ENV_RANGE	(4 * CONFIG_ENV_SIZE)
 #endif
 
 #ifdef CONFIG_TARGET_COLIBRI_IMX7_NAND
