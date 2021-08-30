@@ -116,6 +116,12 @@
 #  define BOOT_SCRIPT   "boot.scr"
 #endif
 
+#if defined(CONFIG_TARGET_COLIBRI_IMX6ULL_EMMC)
+#define VIDARGS	""
+#else
+#define VIDARGS	"video=mxsfb:640x480M-16@60"
+#endif
+
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	BOOTENV \
 	MEM_LAYOUT_ENV_SETTINGS \
@@ -146,7 +152,7 @@
 	"splashpos=m,m\0" \
 	"splashimage=" __stringify(CONFIG_LOADADDR) "\0" \
 	"videomode=video=ctfb:x:640,y:480,depth:18,pclk:39722,le:48,ri:16,up:33,lo:10,hs:96,vs:2,sync:0,vmode:0\0" \
-	"vidargs=video=mxsfb:640x480M-16@60"
+	"vidargs=" VIDARGS
 
 #define CONFIG_SYS_LOAD_ADDR		CONFIG_LOADADDR
 
