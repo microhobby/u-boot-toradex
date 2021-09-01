@@ -122,8 +122,6 @@
 #endif /* CONFIG_TDX_EASY_INSTALLER */
 
 #if defined(CONFIG_TARGET_COLIBRI_IMX7_NAND)
-#define CONFIG_BOOTCOMMAND "run ubiboot ; echo ; echo ubiboot failed ; " \
-	"run distro_bootcmd;"
 #define MODULE_EXTRA_ENV_SETTINGS \
 	"mtdparts=" CONFIG_MTDPARTS_DEFAULT "\0" \
 	UBI_BOOTCMD
