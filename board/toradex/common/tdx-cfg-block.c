@@ -371,7 +371,8 @@ static int get_cfgblock_interactive(void)
 
 	if (cpu_is_pxa27x())
 		sprintf(message, "Is the module the 312 MHz version? [y/N] ");
-#if !(defined(CONFIG_TARGET_VERDIN_IMX8MM) || defined(CONFIG_TARGET_VERDIN_IMX8MN) || defined(CONFIG_TARGET_COLIBRI_IMX6ULL_EMMC))
+#if !(defined(CONFIG_TARGET_VERDIN_IMX8MM) || defined(CONFIG_TARGET_VERDIN_IMX8MN) \
+	|| defined(CONFIG_TARGET_COLIBRI_IMX6ULL_EMMC) || defined(CONFIG_TARGET_COLIBRI_IMX7_EMMC))
 	else
 		sprintf(message, "Is the module an IT version? [y/N] ");
 
@@ -437,7 +438,11 @@ static int get_cfgblock_interactive(void)
 #endif
 #endif
 	} else if (!strcmp("imx7d", soc))
+#if defined(CONFIG_TARGET_COLIBRI_IMX7_EMMC)
+		tdx_hw_tag.prodid = COLIBRI_IMX7D_EMMC;
+#else
 		tdx_hw_tag.prodid = COLIBRI_IMX7D;
+#endif
 	else if (!strcmp("imx7s", soc))
 		tdx_hw_tag.prodid = COLIBRI_IMX7S;
 	else if (is_cpu_type(MXC_CPU_IMX8MM))
