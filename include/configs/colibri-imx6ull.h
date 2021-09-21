@@ -116,11 +116,7 @@
 #  define BOOT_SCRIPT   "boot.scr"
 #endif
 
-#if defined(CONFIG_TARGET_COLIBRI_IMX6ULL_EMMC)
 #define VIDARGS	""
-#else
-#define VIDARGS	"video=mxsfb:640x480M-16@60"
-#endif
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	BOOTENV \
