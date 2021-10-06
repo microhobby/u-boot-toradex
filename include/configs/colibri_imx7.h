@@ -33,6 +33,8 @@
 #define CONFIG_SERVERIP			192.168.10.1
 #define CONFIG_ROOTPATH			"/srv/nfs"
 
+#define VIDARGS	"\0"
+
 #if defined(CONFIG_TARGET_COLIBRI_IMX7_EMMC)
 #define UBOOT_UPDATE \
 	"uboot_hwpart=1\0" \
@@ -127,6 +129,7 @@
 	UBI_BOOTCMD
 #elif defined(CONFIG_TARGET_COLIBRI_IMX7_EMMC)
 #define MODULE_EXTRA_ENV_SETTINGS \
+	"vidargs=" VIDARGS \
 	"variant=-emmc\0" \
 	EMMC_ANDROID_BOOTCMD
 #endif
