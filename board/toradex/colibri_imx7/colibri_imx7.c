@@ -382,8 +382,11 @@ int board_late_init(void)
 	setup_lcd();
 #endif
 
-	if (is_emmc)
+	if (is_emmc) {
 		env_set("variant", "-emmc");
+	} else {
+		env_set("variant", "");
+	}
 
 #ifdef CONFIG_CMD_USB_SDP
 	if (is_boot_from_usb()) {
