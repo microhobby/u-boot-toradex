@@ -169,12 +169,18 @@ int board_late_init(void)
 	    tdx_hw_tag.prodid == COLIBRI_IMX6ULL_WIFI_BT) {
 		env_set("variant", "-wifi");
 	} else {
-		if (is_emmc)
+		if (is_emmc) {
 			env_set("variant", "-emmc");
+		} else {
+			env_set("variant", "");
+		}
 	}
 #else
-	if (is_emmc)
+	if (is_emmc) {
 		env_set("variant", "-emmc");
+	} else {
+		env_set("variant", "");
+	}
 #endif
 
 	/*
