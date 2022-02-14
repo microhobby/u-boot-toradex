@@ -78,7 +78,7 @@ static iomux_v3_cfg_t const usb_cdet_pads[] = {
 #endif
 
 static iomux_v3_cfg_t const flash_detection_pads[] = {
-	MX7D_PAD_SD3_RESET_B__GPIO6_IO11 | MUX_PAD_CTRL(FLASH_DETECTION_CTRL),
+	MX7D_PAD_SD3_RESET_B__GPIO6_IO11 | MUX_PAD_CTRL(FLASH_DETECTION_CTRL) | MUX_MODE_SION,
 };
 
 #ifdef CONFIG_TARGET_COLIBRI_IMX7_NAND
@@ -192,9 +192,9 @@ int board_init(void)
 	gd->bd->bi_boot_params = PHYS_SDRAM + 0x100;
 
 	/*
-	 * Enable GPIO on NAND_WE_B/eMMC_RST with 100k pull-down. eMMC_RST
+	 * Enable GPIO SION on NAND_WE_B/eMMC_RST with 100k pull-down. eMMC_RST
 	 * is pulled high with 4.7k for eMMC devices. This allows to reliably
-	 * detect eMMC/NAND flash
+	 * detect eMMC vs. NAND flash.
 	 */
 	imx_iomux_v3_setup_multiple_pads(flash_detection_pads, ARRAY_SIZE(flash_detection_pads));
 	gpio_request(FLASH_DET_GPIO, "flash-detection-gpio");
