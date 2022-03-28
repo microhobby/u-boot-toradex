@@ -25,7 +25,8 @@ stages:
   stage: test.py
   before_script:
     # Clone uboot-test-hooks
-    - git clone --depth=1 https://source.denx.de/u-boot/u-boot-test-hooks /tmp/uboot-test-hooks
+    - git clone https://source.denx.de/u-boot/u-boot-test-hooks /tmp/uboot-test-hooks
+    - pushd /tmp/uboot-test-hooks; git reset --hard 25c96c1c79226596dbe342256b0f5bf208480174; popd
     - ln -s travis-ci /tmp/uboot-test-hooks/bin/`hostname`
     - ln -s travis-ci /tmp/uboot-test-hooks/py/`hostname`
     - grub-mkimage --prefix="" -o ~/grub_x86.efi -O i386-efi normal  echo lsefimmap lsefi lsefisystab efinet tftp minicmd
