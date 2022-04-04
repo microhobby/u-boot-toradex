@@ -53,7 +53,7 @@ int arch_misc_init(void)
 		env_set("vidargs", "video=HDMI-A-1:640x480-16@60D");
 		env_set("bootcmd", "run setup; env set bootargs ${defargs} " \
 		       "${setupargs} ${vidargs} ${teziargs}; " \
-		       "bootm 0x80208000#config@${soc}-${fdt_module}-${fdt_board}.dtb");
+		       "bootm 0x80208000#conf-${soc}-${fdt_module}-${fdt_board}.dtb");
 #else /* CONFIG_TDX_EASY_INSTALLER */
 		printf("USB recovery mode\n");
 #endif /* CONFIG_TDX_EASY_INSTALLER */
