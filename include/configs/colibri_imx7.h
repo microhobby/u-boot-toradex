@@ -109,7 +109,7 @@
 		"${teziargs}; echo Booting Toradex Easy Installer...; " \
 		"ubi part ubi && " \
 		"ubi read ${ramdisk_addr_r} rootfs && " \
-		"bootm ${ramdisk_addr_r}#config@${soc}-colibri${variant}-${fdt_board}.dtb\0"
+		"bootm ${ramdisk_addr_r}#conf-${soc}-colibri${variant}-${fdt_board}.dtb\0"
 #else /* CONFIG_TDX_EASY_INSTALLER */
 #define UBI_BOOTCMD	\
 	"ubiargs=ubi.mtd=ubi root=ubi0:rootfs rootfstype=ubifs " \
