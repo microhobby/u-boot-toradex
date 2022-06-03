@@ -358,6 +358,18 @@ out:
 	return ret;
 }
 
+static int parse_assembly_string(char *string_to_parse, u16 *assembly)
+{
+	if (string_to_parse[3] >= 'A' && string_to_parse[3] <= 'Z')
+		*assembly = string_to_parse[3] - 'A';
+	else if (string_to_parse[3] == '#')
+		*assembly = simple_strtoul(&string_to_parse[4], NULL, 10);
+	else
+		return -EINVAL;
+
+	return 0;
+}
+
 static int get_cfgblock_interactive(void)
 {
 	char message[CONFIG_SYS_CBSIZE];
@@ -365,6 +377,7 @@ static int get_cfgblock_interactive(void)
 	char it = 'n';
 	char wb = 'n';
 	int len = 0;
+	int ret = 0;
 
 	/* Unknown module by default */
 	tdx_hw_tag.prodid = 0;
@@ -541,13 +554,18 @@ static int get_cfgblock_interactive(void)
 	}
 
 	while (len < 4) {
-		sprintf(message, "Enter the module version (e.g. V1.1B): V");
+		sprintf(message, "Enter the module version (e.g. V1.1B or V1.1#26): V");
 		len = cli_readline(message);
 	}
 
 	tdx_hw_tag.ver_major = console_buffer[0] - '0';
 	tdx_hw_tag.ver_minor = console_buffer[2] - '0';
-	tdx_hw_tag.ver_assembly = console_buffer[3] - 'A';
+
+	ret = parse_assembly_string(console_buffer, &tdx_hw_tag.ver_assembly);
+	if (ret) {
+		printf("Parsing module version failed\n");
+		return ret;
+	}
 
 	if (cpu_is_pxa27x() && tdx_hw_tag.ver_major == 1)
 		tdx_hw_tag.prodid -= (COLIBRI_PXA270_312MHZ -
@@ -754,6 +772,7 @@ static int get_cfgblock_carrier_interactive(void)
 {
 	char message[CONFIG_SYS_CBSIZE];
 	int len;
+	int ret = 0;
 
 	printf("Supported carrier boards:\n");
 	printf("CARRIER BOARD NAME\t\t [ID]\n");
@@ -767,13 +786,18 @@ static int get_cfgblock_carrier_interactive(void)
 	tdx_car_hw_tag.prodid = simple_strtoul(console_buffer, NULL, 10);
 
 	do {
-		sprintf(message, "Enter carrier board version (e.g. V1.1B): V");
+		sprintf(message, "Enter carrier board version (e.g. V1.1B or V1.1#26): V");
 		len = cli_readline(message);
 	} while (len < 4);
 
 	tdx_car_hw_tag.ver_major = console_buffer[0] - '0';
 	tdx_car_hw_tag.ver_minor = console_buffer[2] - '0';
-	tdx_car_hw_tag.ver_assembly = console_buffer[3] - 'A';
+
+	ret = parse_assembly_string(console_buffer, &tdx_car_hw_tag.ver_assembly);
+	if (ret) {
+		printf("Parsing module version failed\n");
+		return ret;
+	}
 
 	while (len < 8) {
 		sprintf(message, "Enter carrier board serial number: ");
