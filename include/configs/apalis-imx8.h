@@ -9,10 +9,6 @@
 #include <asm/arch/imx-regs.h>
 #include <linux/sizes.h>
 
-#define CONFIG_SYS_FSL_ESDHC_ADDR	0
-#define USDHC1_BASE_ADDR		0x5b010000
-#define USDHC2_BASE_ADDR		0x5b020000
-
 /* Networking */
 #define CONFIG_IPADDR			192.168.10.2
 #define CONFIG_NETMASK			255.255.255.0
@@ -56,12 +52,7 @@
 		"${blkcnt} / 0x200; mmc dev 0 1; mmc write ${loadaddr} 0x0 " \
 		"${blkcnt}; fi\0"
 
-/* Link Definitions */
-
 #define CONFIG_SYS_INIT_SP_ADDR		0x80200000
-
-/* On Apalis iMX8 USDHC1 is eMMC, USDHC2 is 8-bit and USDHC3 is 4-bit MMC/SD */
-#define CONFIG_SYS_FSL_USDHC_NUM	3
 
 #define CONFIG_SYS_BOOTM_LEN		SZ_64M /* Increase max gunzip size */
 
