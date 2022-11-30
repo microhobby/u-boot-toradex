@@ -1,6 +1,6 @@
-/* SPDX-License-Identifier: GPL-2.0+ */
+/* SPDX-License-Identifier: GPL-2.0-or-later */
 /*
- * Copyright 2019-2021 Toradex
+ * Copyright 2019-2022 Toradex
  */
 
 #ifndef __APALIS_IMX8_H
