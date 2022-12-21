@@ -19,6 +19,34 @@
 		bootargs = "console=ttyLP1,115200 earlycon=lpuart32,0x5a070000,115200";
 		stdout-path = &lpuart1;
 	};
+
+	regulators {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		reg_usb_otg1_vbus: regulator@0 {
+			compatible = "regulator-fixed";
+			reg = <0>;
+			pinctrl-0 = <&pinctrl_gpio_usbo1_en>;
+			regulator-name = "usb_otg1_vbus";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			gpio = <&gpio4 3 GPIO_ACTIVE_HIGH>;
+			enable-active-high;
+		};
+
+		reg_usb_host_vbus: regulator-usb-host-vbus {
+			compatible = "regulator-fixed";
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_gpio_usbh_en>;
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
+			/* Apalis USBH_EN */
+			gpio = <&gpio4 4 GPIO_ACTIVE_HIGH>;
+		};
+	};
 };
 
 &iomuxc {
@@ -30,8 +58,6 @@
 		    <&pinctrl_gpio_keys>, <&pinctrl_gpio_pwm0>,
 		    <&pinctrl_gpio_pwm1>, <&pinctrl_gpio_pwm2>,
 		    <&pinctrl_gpio_pwm3>, <&pinctrl_gpio_pwm_bkl>,
-		    <&pinctrl_gpio_usbh_en>, <&pinctrl_gpio_usbh_oc_n>,
-		    <&pinctrl_gpio_usbo1_en>, <&pinctrl_gpio_usbo1_oc_n>,
 		    <&pinctrl_lpuart1ctrl>, <&pinctrl_lvds0_i2c0_gpio>,
 		    <&pinctrl_lvds1_i2c0_gpios>, <&pinctrl_mipi_dsi_0_1_en>,
 		    <&pinctrl_mipi_dsi1_gpios>, <&pinctrl_mlb_gpios>,
@@ -585,6 +611,20 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lpuart3>;
 	status = "okay";
+};
+
+&usbotg1 {
+	vbus-supply = <&reg_usb_otg1_vbus>;
+	srp-disable;
+	hnp-disable;
+	adp-disable;
+	disable-over-current;
+	status = "okay";
+};
+
+&usbotg3 {
+	dr_mode = "host";
+	vbus-supply = <&reg_usb_host_vbus>;
 };
 
 /* eMMC */

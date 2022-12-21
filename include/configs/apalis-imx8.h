@@ -36,6 +36,7 @@
 	func(MMC, mmc, 1) \
 	func(MMC, mmc, 2) \
 	func(MMC, mmc, 0) \
+	func(USB, usb, 0) \
 	func(DHCP, dhcp, na)
 #include <config_distro_bootcmd.h>
 
@@ -76,5 +77,19 @@
 
 /* Generic Timer Definitions */
 #define COUNTER_FREQUENCY		8000000	/* 8MHz */
+
+/* USB Config */
+#ifndef CONFIG_SPL_BUILD
+#define CONFIG_USBD_HS
+#endif
+
+#define CONFIG_USB_MAX_CONTROLLER_COUNT 2
+
+/* USB OTG controller configs */
+#ifdef CONFIG_USB_EHCI_HCD
+#define CONFIG_USB_HOST_ETHER
+#define CONFIG_USB_ETHER_ASIX
+#define CONFIG_MXC_USB_PORTSC		(PORT_PTS_UTMI | PORT_PTS_PTW)
+#endif
 
 #endif /* __APALIS_IMX8_H */
