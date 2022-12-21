@@ -297,7 +297,10 @@ int board_init(void)
  */
 void reset_cpu(void)
 {
-	/* TODO */
+	sc_pm_reboot(-1, SC_PM_RESET_TYPE_COLD);
+
+	do {
+	} while (1);
 }
 
 #if defined(CONFIG_OF_LIBFDT) && defined(CONFIG_OF_BOARD_SETUP)
