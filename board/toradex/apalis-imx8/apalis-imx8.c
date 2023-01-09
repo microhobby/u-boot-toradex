@@ -261,6 +261,7 @@ static void select_dt_from_module_version(void)
 	/* Select Apalis iMX8QM device trees */
 	case APALIS_IMX8QM_IT:
 	case APALIS_IMX8QM_WIFI_BT_IT:
+	case APALIS_IMX8QM_8GB_WIFI_BT_IT:
 		if (get_pcb_revision() == PCB_VERSION_1_0)
 			env_set("variant", "");
 		break;
