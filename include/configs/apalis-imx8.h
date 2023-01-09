@@ -22,6 +22,15 @@
 	"ramdisk_addr_r=0x9d500000\0" \
 	"scriptaddr=0x9d480000\0"
 
+/* Boot M4 */
+#define M4_BOOT_ENV \
+	"m4_0_image=m4_0.bin\0" \
+	"m4_1_image=m4_1.bin\0" \
+	"loadm4image_0=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${m4_0_image}\0" \
+	"loadm4image_1=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${m4_1_image}\0" \
+	"m4boot_0=run loadm4image_0; dcache flush; bootaux ${loadaddr} 0\0" \
+	"m4boot_1=run loadm4image_1; dcache flush; bootaux ${loadaddr} 1\0" \
+
 /* Enable Distro Boot */
 #define BOOT_TARGET_DEVICES(func) \
 	func(MMC, mmc, 1) \
@@ -33,6 +42,7 @@
 /* Initial environment variables */
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	BOOTENV \
+	M4_BOOT_ENV \
 	MEM_LAYOUT_ENV_SETTINGS \
 	"boot_file=Image\0" \
 	"boot_script_dhcp=boot.scr\0" \
