@@ -194,6 +194,7 @@ config TARGET_COLIBRI_IMX6
 	select DM
 	select DM_SERIAL
 	select DM_THERMAL
+	select MX6DL
 	select SUPPORT_SPL
 	imply CMD_DM
 
